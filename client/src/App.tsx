@@ -43,18 +43,10 @@ function App() {
 
   const [portfolio, setPortfolio] = useState<any[]>(portfolioService.portfolio);
   const [prices, setPrices] = useState(portfolioService.portfolio.map((p) => p.price));
-  const [changes, setChanges] = useState(
-    portfolioService.portfolio.map((p) => calculatePercentChange(p.price, p.buyPrice))
-  );
 
   useEffect(() => {
     setPrices(portfolio.map((p) => p.price));
-    setChanges(portfolio.map((p) => calculatePercentChange(p.price, p.buyPrice)));
   }, [portfolio]);
-
-  useEffect(() => {
-    setChanges(prices.map((p, i) => calculatePercentChange(p, portfolio[i].buyPrice)));
-  }, [prices]);
 
   useEffect(() => {
     setRandomPost();
@@ -98,6 +90,7 @@ function App() {
   const onSell = (i: number) => {
     portfolioService.sell(portfolio[i]);
     setPortfolio(portfolioService.portfolio);
+    setPrices(portfolioService.portfolio.map(p => p.price));
   };
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -164,11 +157,11 @@ function App() {
                     <div className="flex gap-2 justify-around">
                       <span
                         className={
-                          (changes[i] > 0 ? 'text-green-600' : 'text-red-600') +
+                          (calculatePercentChange(prices[i], p.buyPrice) > 0 ? 'text-green-600' : 'text-red-600') +
                           ' pt-2'
                         }
                       >
-                        {changes[i]}%
+                        {calculatePercentChange(prices[i], p.buyPrice)}%
                       </span>
                       <IconButton color="error" onClick={() => onSell(i)}>
                         <AttachMoneyIcon />

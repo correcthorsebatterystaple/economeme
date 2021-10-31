@@ -89,7 +89,6 @@ function App() {
   const onSell = (i: number) => {
     portfolioService.sell(portfolio[i]);
     setPortfolio(portfolioService.portfolio);
-    setPrices(portfolioService.portfolio.map(p => p.price));
   };
 
   const [modalOpen, setModalOpen] = useState(false);

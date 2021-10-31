@@ -48,7 +48,7 @@ app.use(cors({
   origin: '*'
 }));
 
-app.get('/posts/random', async (req, res) => {
+app.get('/api/posts/random', async (req, res) => {
   const data = await getPosts(req.query).then(res => res.json());
 
   const imagePost = _.sample(data.data.children.filter(c => c.data.url.endsWith('.jpg') && !c.data.stickied));
@@ -67,7 +67,7 @@ app.get('/posts/random', async (req, res) => {
   res.json(postTransform(imagePost));
 });
 
-app.get('/posts', async (req, res) => {
+app.get('/api/posts', async (req, res) => {
   if (req.query['permalink']) {
     const post = (await getPost(req.query.permalink).then(res => res.json()))[0]['data']['children'][0];
     res.json({
@@ -89,4 +89,4 @@ let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-app.listen(3210, () => console.log(`Listening on Port ${port}...`));
+app.listen(port, () => console.log(`Listening on Port ${port}...`));

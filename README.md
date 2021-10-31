@@ -7,4 +7,4 @@
 3. Go to client
   1. Run `npm install`
   2. Run `npm run dev`
-4. Visit https://localhost:3210
+4. Visit https://localhost:3000

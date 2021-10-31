@@ -42,11 +42,16 @@ function App() {
   const [post, setPost] = useState<any>(null);
 
   const [portfolio, setPortfolio] = useState<any[]>(portfolioService.portfolio);
-  const [prices, setPrices] = useState(portfolioService.portfolio.map((p) => p.price));
+  const [prices, setPrices] = useState(portfolio.map((p) => p.price));
+  const [changes, setChanges] = useState(portfolio.map(p => calculatePercentChange(p.price, p.buyPrice)));
 
   useEffect(() => {
     setPrices(portfolio.map((p) => p.price));
   }, [portfolio]);
+
+  useEffect(() => {
+    setChanges(portfolio.map(p => calculatePercentChange(p.price, p.buyPrice)));
+  }, [portfolio, prices])
 
   useEffect(() => {
     setRandomPost();
@@ -102,6 +107,7 @@ function App() {
     }
     setSelectedPost(val);
   };
+  console.log(portfolio);
   return (
     <div className="grid grid-cols-2">
       <div className="h-screen flex flex-col justify-between border-r border-black">
@@ -159,7 +165,7 @@ function App() {
                           ' pt-2'
                         }
                       >
-                        {calculatePercentChange(prices[i], p.buyPrice)}%
+                        {changes[i]}%
                       </span>
                       <IconButton color="error" onClick={() => onSell(i)}>
                         <AttachMoneyIcon />

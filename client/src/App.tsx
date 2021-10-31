@@ -161,7 +161,7 @@ function App() {
                     <div className="flex gap-2 justify-around">
                       <span
                         className={
-                          (calculatePercentChange(prices[i], p.buyPrice) > 0 ? 'text-green-600' : 'text-red-600') +
+                          (changes[i] > 0 ? 'text-green-600' : 'text-red-600') +
                           ' pt-2'
                         }
                       >

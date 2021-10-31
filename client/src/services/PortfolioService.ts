@@ -6,7 +6,6 @@ class PortfolioService {
 
   public static getInstance(apiService: ApiService) {
     if (!PortfolioService.instance) {
-      console.log('Created new PortfolioService');
       return new PortfolioService(apiService);
     }
     return PortfolioService.instance;

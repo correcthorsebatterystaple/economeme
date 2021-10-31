@@ -33,7 +33,7 @@ function usePrevious(value: any) {
   return ref.current;
 }
 
-function calculatePercentChange(curr, base) {
+function calculatePercentChange(curr: number, base: number) {
   return Math.round((curr / base - 1) * 100);
 }
 
@@ -57,7 +57,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log('bought posts changed');
     localStorageService.save();
   }, [portfolio]);
 
@@ -97,7 +96,7 @@ function App() {
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
 
-  const handleModalSubmit = (val) => {
+  const handleModalSubmit = (val: string) => {
     if (!val) {
       setRandomPost();
       return;

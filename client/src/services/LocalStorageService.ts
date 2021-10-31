@@ -21,7 +21,6 @@ class LocalStorageService {
 
   load() {
     const snapshot = JSON.parse(localStorage.getItem('meme') || 'null');
-    console.log(localStorage.getItem('meme'));
     if (!snapshot) return;
     this.portfolioService.portfolio = snapshot.portfolio;
     this.portfolioService.balance = snapshot.balance;

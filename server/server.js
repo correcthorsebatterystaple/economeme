@@ -48,11 +48,6 @@ app.use(cors({
   origin: '*'
 }));
 
-app.use((req,res,next) => {
-  console.log(req.url);
-  next();
-});
-
 app.get('/posts/random', async (req, res) => {
   const data = await getPosts(req.query).then(res => res.json());
 
@@ -82,6 +77,8 @@ app.get('/posts', async (req, res) => {
 
   res.status(404).end();
 });
+
+app.use(express.static('../client/dist'));
 
 app.all('*', (req, res) => {
   res.status(404);

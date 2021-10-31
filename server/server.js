@@ -85,5 +85,8 @@ app.all('*', (req, res) => {
   res.end();
 });
 
-const PORT = 3210;
-app.listen(3210, () => console.log(`Listening on Port ${PORT}...`));
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+app.listen(3210, () => console.log(`Listening on Port ${port}...`));

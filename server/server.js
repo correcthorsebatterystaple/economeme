@@ -15,11 +15,9 @@ function randomChoice(...arr) {
 }
 
 function getPosts({subreddit, listing, period}={}) {
-  subreddit = subreddit || randomChoice('memes','dankmemes');
+  subreddit = subreddit || randomChoice('memes','dankmemes', 'programmerhumor');
   listing = listing || randomChoice('new', 'rising', 'controversial');
   period = period || 'month';
-
-  console.log(listing);
 
   return fetch(`https://reddit.com/r/${subreddit}/${listing}.json?t=${period}`, {
     headers:{

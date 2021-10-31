@@ -33,8 +33,8 @@ function usePrevious(value: any) {
   return ref.current;
 }
 
-function calculatePercentChange(curr, prev) {
-  return Math.round((curr / prev - 1) * 100);
+function calculatePercentChange(curr, base) {
+  return Math.round((curr / base - 1) * 100);
 }
 
 function App() {
@@ -43,14 +43,18 @@ function App() {
 
   const [portfolio, setPortfolio] = useState<any[]>(portfolioService.portfolio);
   const [prices, setPrices] = useState(portfolioService.portfolio.map((p) => p.price));
-  console.log('rerender');
-  const prevPrices = prices;
-  const changes = prices.map((p,i) => calculatePercentChange(p, prevPrices[i]));
+  const [changes, setChanges] = useState(
+    portfolioService.portfolio.map((p) => calculatePercentChange(p.price, p.buyPrice))
+  );
 
   useEffect(() => {
-    setPrices(portfolio.map(p => p.price));
-    
+    setPrices(portfolio.map((p) => p.price));
+    setChanges(portfolio.map((p) => calculatePercentChange(p.price, p.buyPrice)));
   }, [portfolio]);
+
+  useEffect(() => {
+    setChanges(prices.map((p, i) => calculatePercentChange(p, portfolio[i].buyPrice)));
+  }, [prices]);
 
   useEffect(() => {
     setRandomPost();
@@ -130,8 +134,8 @@ function App() {
         </div>
         <p className="text-center text-4xl">$ {postLoading ? '???' : post.buyPrice}</p>
         <div className="flex justify-around w-full">
-          <Button onClick={() => onBuy()}>BUY</Button>
-          <Button onClick={() => setRandomPost()}>SKIP</Button>
+          <Button onClick={() => onBuy()} color="success" variant="contained" sx={{width: '50%', borderRadius: '0'}}>BUY</Button>
+          <Button onClick={() => setRandomPost()} sx={{width: '50%'}}>SKIP</Button>
         </div>
       </div>
       <div className="h-screen relative">
@@ -158,8 +162,13 @@ function App() {
                   <TableCell>{prices[i]}</TableCell>
                   <TableCell>
                     <div className="flex gap-2 justify-around">
-                      <span className={(calculatePercentChange(p.price, prevPrices[i]) > 0 ? 'text-green-600' : 'text-red-600') + ' pt-2'}>
-                        {calculatePercentChange(p.price, prevPrices[i])}%
+                      <span
+                        className={
+                          (changes[i] > 0 ? 'text-green-600' : 'text-red-600') +
+                          ' pt-2'
+                        }
+                      >
+                        {changes[i]}%
                       </span>
                       <IconButton color="error" onClick={() => onSell(i)}>
                         <AttachMoneyIcon />

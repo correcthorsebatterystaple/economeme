@@ -50,8 +50,8 @@ function App() {
   }, [portfolio]);
 
   useEffect(() => {
-    setChanges(portfolio.map(p => calculatePercentChange(p.price, p.buyPrice)));
-  }, [portfolio, prices])
+    setChanges(portfolio.map((p, i) => calculatePercentChange(prices[i], p.buyPrice)));
+  }, [portfolio, prices]);
 
   useEffect(() => {
     setRandomPost();
@@ -107,7 +107,7 @@ function App() {
     }
     setSelectedPost(val);
   };
-  console.log(portfolio);
+
   return (
     <div className="grid grid-cols-2">
       <div className="h-screen flex flex-col justify-between border-r border-black">
